@@ -1,1 +1,4 @@
-# -Omimane09-CodeAlpha_Credit-Scoring-Model
+# Images Directory
+
+Place static images here (logos, screenshots, etc.).
+

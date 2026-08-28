@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}About | CreditScoringAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">About <span class="gradient-text">CreditScoringAI</span></h1>
+        <p class="lead text-muted">A professional-grade Machine Learning credit risk assessment system</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="glass-card p-4 h-100">
+                <h5><i class="bi bi-bullseye text-primary"></i> Objective</h5>
+                <p>
+                    CreditScoringAI predicts whether a loan applicant is <strong>Low Risk</strong>,
+                    <strong>Medium Risk</strong>, or <strong>High Risk</strong> using advanced machine
+                    learning techniques. It analyzes 24+ financial features including income, debt,
+                    savings, credit history, and payment behavior.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card p-4 h-100">
+                <h5><i class="bi bi-cpu text-success"></i> How It Works</h5>
+                <p>
+                    The system trains and compares five models — Logistic Regression, Decision Tree,
+                    Random Forest, Gradient Boosting, and XGBoost — then automatically selects and saves
+                    the best-performing model. Each prediction returns risk level, probabilities,
+                    confidence, and personalized recommendations.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card p-4 mt-4">
+        <h5 class="text-center mb-4"><i class="bi bi-diagram-3 text-primary"></i> Project Architecture</h5>
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="arch-node p-3">
+                    <i class="bi bi-database display-6 text-info"></i>
+                    <h6 class="mt-2">Dataset &amp; Preprocessing</h6>
+                    <small class="text-muted">10,000+ synthetic records with feature engineering, encoding, and scaling</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="arch-node p-3">
+                    <i class="bi bi-ml display-6 text-primary"></i>
+                    <h6 class="mt-2">ML Training Pipeline</h6>
+                    <small class="text-muted">5 models compared with accuracy, precision, recall, F1, and ROC AUC</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="arch-node p-3">
+                    <i class="bi bi-globe2 display-6 text-success"></i>
+                    <h6 class="mt-2">Flask Web App</h6>
+                    <small class="text-muted">REST APIs, authentication, dashboard, history, and interactive UI</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card p-4 mt-4">
+        <h5 class="mb-3"><i class="bi bi-tools text-warning"></i> Technology Stack</h5>
+        <div class="d-flex flex-wrap gap-2">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Flask</span>
+            <span class="tech-badge">Scikit-Learn</span>
+            <span class="tech-badge">Pandas</span>
+            <span class="tech-badge">NumPy</span>
+            <span class="tech-badge">XGBoost</span>
+            <span class="tech-badge">Joblib</span>
+            <span class="tech-badge">Bootstrap 5</span>
+            <span class="tech-badge">Chart.js</span>
+            <span class="tech-badge">SQLite</span>
+        </div>
+    </div>
+
+    <div class="glass-card p-4 mt-4 text-center">
+        <div class="avatar-circle mx-auto mb-3">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <h5 class="fw-bold mb-1"><i class="bi bi-code-slash text-primary"></i> Created by <span class="gradient-text">Omkar Mane</span></h5>
+        <p class="text-muted mb-2">Developer &amp; Machine Learning Enthusiast</p>
+        <p class="mb-3">
+            This Credit Scoring Prediction System was designed and developed by <strong>Omkar Mane</strong>,
+            combining Python, Flask, and advanced Machine Learning to deliver accurate credit risk assessments.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <span class="social-link"><i class="bi bi-github"></i> Github</span>
+            <span class="social-link"><i class="bi bi-linkedin"></i> LinkedIn</span>
+            <span class="social-link"><i class="bi bi-envelope"></i> Email</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

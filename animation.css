@@ -1,0 +1,109 @@
+/* ============================================
+   CreditScoringAI - Animations
+   ============================================ */
+
+/* Gradient background shifting */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Hero entrance animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-hero {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-result {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Pulse animation for risk dots */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.risk-dot {
+    animation: pulse 2s infinite;
+}
+
+/* Loading spinner for cards */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Float animation for icons */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.stat-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Card hover shimmer */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+/* Page fade in */
+@keyframes pageFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body {
+    animation: pageFade 0.5s ease;
+}
+
+/* Counter animation container */
+.counter {
+    display: inline-block;
+}
+
+/* Toast slide in */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast {
+    animation: slideIn 0.4s ease;
+}
+
+/* Loading bar for predictions */
+@keyframes loadingBar {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+.loading-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #6f42c1);
+    animation: loadingBar 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

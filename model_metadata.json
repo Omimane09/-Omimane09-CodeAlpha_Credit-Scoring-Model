@@ -1,0 +1,89 @@
+{
+  "best_model": "Logistic Regression",
+  "best_accuracy": 75.2,
+  "results": {
+    "Logistic Regression": {
+      "accuracy": 75.2,
+      "precision": 49.78,
+      "recall": 49.44,
+      "f1": 49.55,
+      "roc_auc": 87.01
+    },
+    "Decision Tree": {
+      "accuracy": 67.8,
+      "precision": 48.44,
+      "recall": 48.45,
+      "f1": 48.45,
+      "roc_auc": 68.83
+    },
+    "Random Forest": {
+      "accuracy": 74.0,
+      "precision": 48.93,
+      "recall": 48.47,
+      "f1": 48.58,
+      "roc_auc": 83.42
+    },
+    "Gradient Boosting": {
+      "accuracy": 75.2,
+      "precision": 50.0,
+      "recall": 49.39,
+      "f1": 49.6,
+      "roc_auc": 81.99
+    },
+    "XGBoost": {
+      "accuracy": 74.5,
+      "precision": 49.25,
+      "recall": 48.97,
+      "f1": 49.05,
+      "roc_auc": 84.02
+    }
+  },
+  "feature_columns": [
+    "Age",
+    "Gender",
+    "Annual_Income",
+    "Monthly_Income",
+    "Occupation",
+    "Employment_Years",
+    "Education",
+    "Marital_Status",
+    "Loan_Amount",
+    "Loan_Term_Months",
+    "Interest_Rate",
+    "Debt",
+    "Credit_Card_Debt",
+    "Savings",
+    "Investments",
+    "Number_of_Credit_Cards",
+    "Missed_Payments",
+    "Payment_History",
+    "Credit_Utilization",
+    "Existing_Loans",
+    "Bank_Balance",
+    "Assets",
+    "Dependents",
+    "Residence_Type",
+    "Previous_Defaults",
+    "Credit_History_Length_Years",
+    "EMI",
+    "Loan_Purpose",
+    "Debt_to_Income_Ratio",
+    "Savings_Ratio",
+    "Credit_Utilization_Pct",
+    "Payment_Score",
+    "Income_Stability",
+    "Employment_Stability",
+    "Financial_Health_Index",
+    "Debt_Burden_Score",
+    "Asset_to_Debt_Ratio",
+    "Loan_to_Income_Ratio",
+    "Net_Worth"
+  ],
+  "target_classes": [
+    "High Risk",
+    "Low Risk",
+    "Medium Risk"
+  ],
+  "n_samples": 10000,
+  "n_features": 39
+}

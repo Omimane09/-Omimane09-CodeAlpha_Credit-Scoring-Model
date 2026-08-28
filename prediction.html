@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block title %}Make Prediction | CreditScoringAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-clipboard2-data"></i> Credit Risk Prediction</h2>
+        <p class="text-muted">Enter the applicant's financial information below</p>
+    </div>
+
+    <div class="glass-card p-4">
+        <form id="predictionForm" method="POST" action="{{ url_for('predict') }}">
+            <!-- Personal Information -->
+            <h5 class="form-section-title"><i class="bi bi-person"></i> Personal Information</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label">Age</label>
+                    <input type="number" name="Age" class="form-control" min="18" max="100" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Gender</label>
+                    <select name="Gender" class="form-select" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Education</label>
+                    <select name="Education" class="form-select" required>
+                        <option value="High School">High School</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Bachelor" selected>Bachelor</option>
+                        <option value="Master">Master</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Occupation</label>
+                    <select name="Occupation" class="form-select" required>
+                        <option value="Engineer" selected>Engineer</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Analyst">Analyst</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Accountant">Accountant</option>
+                        <option value="Lawyer">Lawyer</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Salesperson">Salesperson</option>
+                        <option value="Technician">Technician</option>
+                        <option value="Entrepreneur">Entrepreneur</option>
+                        <option value="Consultant">Consultant</option>
+                        <option value="Driver">Driver</option>
+                        <option value="Chef">Chef</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Marital Status</label>
+                    <select name="Marital_Status" class="form-select" required>
+                        <option value="Single">Single</option>
+                        <option value="Married" selected>Married</option>
+                        <option value="Divorced">Divorced</option>
+                        <option value="Widowed">Widowed</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Residence Type</label>
+                    <select name="Residence_Type" class="form-select" required>
+                        <option value="Owned">Owned</option>
+                        <option value="Rented">Rented</option>
+                        <option value="Mortgage" selected>Mortgage</option>
+                        <option value="Living with Family">Living with Family</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Dependents</label>
+                    <input type="number" name="Dependents" class="form-control" min="0" max="10" value="1" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Loan Purpose</label>
+                    <select name="Loan_Purpose" class="form-select" required>
+                        <option value="Home">Home</option>
+                        <option value="Car">Car</option>
+                        <option value="Education">Education</option>
+                        <option value="Personal" selected>Personal</option>
+                        <option value="Business">Business</option>
+                        <option value="Debt Consolidation">Debt Consolidation</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Travel">Travel</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Income & Employment -->
+            <h5 class="form-section-title"><i class="bi bi-cash-stack"></i> Income &amp; Employment</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">Annual Income ($)</label>
+                    <input type="number" name="Annual_Income" class="form-control" min="0" value="60000" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Monthly Income ($)</label>
+                    <input type="number" name="Monthly_Income" class="form-control" min="0" value="5000" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Employment Years</label>
+                    <input type="number" name="Employment_Years" class="form-control" min="0" max="50" value="5" step="0.5" required>
+                </div>
+            </div>
+
+            <!-- Loan Details -->
+            <h5 class="form-section-title"><i class="bi bi-bank"></i> Loan Details</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label">Loan Amount ($)</label>
+                    <input type="number" name="Loan_Amount" class="form-control" min="1000" value="50000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Loan Term (Months)</label>
+                    <select name="Loan_Term_Months" class="form-select" required>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="36">36</option>
+                        <option value="48">48</option>
+                        <option value="60" selected>60</option>
+                        <option value="72">72</option>
+                        <option value="84">84</option>
+                        <option value="120">120</option>
+                        <option value="180">180</option>
+                        <option value="240">240</option>
+                        <option value="360">360</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Interest Rate (%)</label>
+                    <input type="number" name="Interest_Rate" class="form-control" min="0" max="30" value="11" step="0.1" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">EMI ($)</label>
+                    <input type="number" name="EMI" class="form-control" min="0" value="1100" step="0.01" required>
+                </div>
+            </div>
+
+            <!-- Financial Health -->
+            <h5 class="form-section-title"><i class="bi bi-pie-chart"></i> Financial Health</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label">Total Debt ($)</label>
+                    <input type="number" name="Debt" class="form-control" min="0" value="20000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Credit Card Debt ($)</label>
+                    <input type="number" name="Credit_Card_Debt" class="form-control" min="0" value="8000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Savings ($)</label>
+                    <input type="number" name="Savings" class="form-control" min="0" value="15000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Investments ($)</label>
+                    <input type="number" name="Investments" class="form-control" min="0" value="10000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Bank Balance ($)</label>
+                    <input type="number" name="Bank_Balance" class="form-control" min="0" value="12000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Assets ($)</label>
+                    <input type="number" name="Assets" class="form-control" min="0" value="80000" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Existing Loans</label>
+                    <input type="number" name="Existing_Loans" class="form-control" min="0" max="10" value="1" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Number of Credit Cards</label>
+                    <input type="number" name="Number_of_Credit_Cards" class="form-control" min="0" max="15" value="2" required>
+                </div>
+            </div>
+
+            <!-- Credit Behavior -->
+            <h5 class="form-section-title"><i class="bi bi-credit-card"></i> Credit Behavior</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label">Missed Payments</label>
+                    <input type="number" name="Missed_Payments" class="form-control" min="0" max="20" value="0" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Payment History (300-900)</label>
+                    <input type="range" name="Payment_History" class="form-range" min="300" max="900" value="700" oninput="this.nextElementSibling.value=this.value">
+                    <output>700</output>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Credit Utilization (%)</label>
+                    <input type="number" name="Credit_Utilization" class="form-control" min="0" max="100" value="30" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Previous Defaults</label>
+                    <input type="number" name="Previous_Defaults" class="form-control" min="0" max="5" value="0" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Credit History (Years)</label>
+                    <input type="number" name="Credit_History_Length_Years" class="form-control" min="0" max="40" value="8" step="0.5" required>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg px-5" id="predictBtn">
+                    <i class="bi bi-magic"></i> Predict Credit Risk
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Form validation and loading animation
+    document.getElementById('predictionForm').addEventListener('submit', function() {
+        const btn = document.getElementById('predictBtn');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Analyzing...';
+        btn.disabled = true;
+    });
+</script>
+{% endblock %}

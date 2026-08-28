@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Home | AI Credit Scoring System{% endblock %}
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center py-5">
+        <div class="hero-content glass-card animate-hero">
+            <span class="badge bg-primary-subtle text-primary mb-3">AI-Powered Financial Intelligence</span>
+            <h1 class="display-4 fw-bold mb-3">
+                Predict Loan Risk with <span class="gradient-text">Machine Learning</span>
+            </h1>
+            <p class="lead text-muted mb-4">
+                Assess whether a loan applicant is <strong>Low Risk</strong>, <strong>Medium Risk</strong>, or
+                <strong>High Risk</strong> using a professionally trained ensemble of ML models.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="bi bi-magic"></i> Make a Prediction
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="bi bi-rocket-takeoff"></i> Get Started
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                {% endif %}
+            </div>
+            <div class="row mt-5 g-4 justify-content-center">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h2 class="counter" data-target="10000">0</h2>
+                        <p class="text-muted mb-0">Data Records</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h2 class="counter" data-target="5">0</h2>
+                        <p class="text-muted mb-0">ML Models</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h2 class="counter" data-target="90" data-suffix="%">0</h2>
+                        <p class="text-muted mb-0">Target Accuracy</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <h2 class="counter" data-target="24">0</h2>
+                        <p class="text-muted mb-0">Smart Features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container py-5">
+    <h2 class="text-center fw-bold mb-5">Why CreditScoring<span class="text-primary">AI</span>?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card glass-card h-100">
+                <i class="bi bi-robot display-5 text-primary"></i>
+                <h5 class="mt-3">Advanced ML Models</h5>
+                <p class="text-muted">Compares Logistic Regression, Decision Tree, Random Forest, Gradient Boosting &amp; XGBoost, automatically selecting the best performer.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card glass-card h-100">
+                <i class="bi bi-graph-up display-5 text-success"></i>
+                <h5 class="mt-3">Comprehensive Insights</h5>
+                <p class="text-muted">Detailed metrics, confusion matrices, ROC curves, feature importance, and financial health analysis.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card glass-card h-100">
+                <i class="bi bi-shield-lock display-5 text-warning"></i>
+                <h5 class="mt-3">Secure &amp; Professional</h5>
+                <p class="text-muted">User authentication, password hashing, role-based access, and SQLite persistence for a production-ready experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Risk Legend -->
+<section class="container pb-5">
+    <div class="glass-card p-4">
+        <h5 class="text-center mb-4 fw-bold">Risk Levels Explained</h5>
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="risk-indicator green">
+                    <span class="risk-dot"></span>
+                    <h6>Low Risk</h6>
+                    <small class="text-muted">Strong financial health, eligible for best rates</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="risk-indicator yellow">
+                    <span class="risk-dot"></span>
+                    <h6>Medium Risk</h6>
+                    <small class="text-muted">Moderate indicators, some improvement needed</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="risk-indicator red">
+                    <span class="risk-dot"></span>
+                    <h6>High Risk</h6>
+                    <small class="text-muted">Elevated risk, financial restructuring advised</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
