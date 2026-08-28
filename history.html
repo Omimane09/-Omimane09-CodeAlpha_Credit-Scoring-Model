@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Prediction History | CreditScoringAI{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-clock-history text-primary"></i> Prediction History</h2>
+        <div class="d-flex gap-2">
+            <button onclick="window.print()" class="btn btn-outline-danger btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+            <button onclick="downloadCSV()" class="btn btn-outline-success btn-sm"><i class="bi bi-file-earmark-excel"></i> CSV</button>
+        </div>
+    </div>
+
+    <div class="glass-card p-3">
+        <div class="row g-2 mb-3">
+            <div class="col-md-6">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search by App ID, Risk Level...">
+            </div>
+            <div class="col-md-3">
+                <select id="filterSelect" class="form-select">
+                    <option value="">All Risk Levels</option>
+                    <option value="Low">Low Risk</option>
+                    <option value="Medium">Medium Risk</option>
+                    <option value="High">High Risk</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small text-muted mb-0">Show rows:</label>
+                <select id="pageSize" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="historyTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>App ID</th>
+                        <th>Risk Level</th>
+                        <th>Confidence</th>
+                        <th>Probability (L/M/H)</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in predictions %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><code>{{ p.application_id }}</code></td>
+                        <td><span class="badge bg-{% if p.risk_level == 'Low' %}success{% elif p.risk_level == 'Medium' %}warning{% else %}danger{% endif %}">{{ p.risk_level }}</span></td>
+                        <td>{{ p.confidence }}%</td>
+                        <td>
+                            <span class="text-success">{{ p.probability_low }}%</span> /
+                            <span class="text-warning">{{ p.probability_medium }}%</span> /
+                            <span class="text-danger">{{ p.probability_high }}%</span>
+                        </td>
+                        <td>{{ p.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete_prediction', pred_id=p.id) }}" onsubmit="return confirm('Delete this prediction?')">
+                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="7" class="text-center text-muted">No predictions found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <nav>
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Search, filter, pagination logic
+    const rows = Array.from(document.querySelectorAll('#historyTable tbody tr'));
+    const searchBox = document.getElementById('searchBox');
+    const filterSelect = document.getElementById('filterSelect');
+    const pageSizeSelect = document.getElementById('pageSize');
+    const pagination = document.getElementById('pagination');
+    let currentPage = 1;
+
+    function filterRows() {
+        const q = searchBox.value.toLowerCase();
+        const f = filterSelect.value;
+        return rows.filter(row => {
+            const text = row.textContent.toLowerCase();
+            const risk = row.querySelector('.badge')?.textContent.toLowerCase() || '';
+            const matchQ = text.includes(q);
+            const matchF = !f || risk.includes(f.toLowerCase());
+            return matchQ && matchF;
+        });
+    }
+
+    function renderTable() {
+        const filtered = filterRows();
+        const pageSize = parseInt(pageSizeSelect.value);
+        const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+
+        rows.forEach(row => row.style.display = 'none');
+        filtered.slice(start, end).forEach(row => row.style.display = '');
+
+        // Pagination
+        pagination.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item' + (i === currentPage ? ' active' : '');
+            const a = document.createElement('a');
+            a.className = 'page-link';
+            a.href = '#';
+            a.textContent = i;
+            a.onclick = (e) => { e.preventDefault(); currentPage = i; renderTable(); };
+            li.appendChild(a);
+            pagination.appendChild(li);
+        }
+    }
+
+    searchBox.addEventListener('input', () => { currentPage = 1; renderTable(); });
+    filterSelect.addEventListener('change', () => { currentPage = 1; renderTable(); });
+    pageSizeSelect.addEventListener('change', () => { currentPage = 1; renderTable(); });
+    renderTable();
+
+    function downloadCSV() {
+        const rowsData = [];
+        const headers = ['App ID', 'Risk Level', 'Confidence', 'Prob Low', 'Prob Med', 'Prob High', 'Date'];
+        rowsData.push(headers);
+        rows.forEach(row => {
+            const cells = row.cells;
+            rowsData.push([
+                cells[1].textContent.trim(),
+                cells[2].textContent.trim(),
+                cells[3].textContent.trim(),
+                cells[4].querySelector('.text-success').textContent,
+                cells[4].querySelector('.text-warning').textContent,
+                cells[4].querySelector('.text-danger').textContent,
+                cells[5].textContent.trim()
+            ]);
+        });
+        const csv = rowsData.map(r => r.join(',')).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'history.csv'; a.click();
+        URL.revokeObjectURL(url);
+    }
+</script>
+{% endblock %}
